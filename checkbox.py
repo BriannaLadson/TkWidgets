@@ -1,7 +1,7 @@
 from tkinter import Canvas
 
 class Checkbox(Canvas):
-	def __init__(self, parent, **kwargs):
+	def __init__(self, parent, command=None, **kwargs):
 		#Default Options
 		self.options = {
 			"bg": "white",
@@ -22,6 +22,7 @@ class Checkbox(Canvas):
 		)
 		
 		self.checked = False
+		self.command = command
 		
 		self.bind("<Configure>", self.draw_border)
 		self.bind("<Button-1>", self.toggle)
@@ -40,6 +41,9 @@ class Checkbox(Canvas):
 			
 		if "checkmark_type" in kwargs or "checkmark_width" in kwargs:
 			self.draw_border()
+			
+		if "command" in kwargs:
+			self.command = kwargs["command"]
 		
 	def draw_border(self, event=None):
 		self.update_idletasks()
@@ -100,3 +104,6 @@ class Checkbox(Canvas):
 		self.checked = not self.checked
 		
 		self.draw_border()
+		
+		if self.command:
+			self.command(self.checked)
