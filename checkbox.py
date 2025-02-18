@@ -10,6 +10,10 @@ class Checkbox(Canvas):
 			"border_thickness": 6,
 			"checkmark_width": 1,
 			"checkmark_type": "checkmark", # "checkmark", "xmark"
+			"checkmark_color": "black",
+			"hover_bg": "lightgray",
+			"disabled_color": "lightgray",
+			"disabled_border_color": "lightgray",
 		}
 		
 		self.options.update(kwargs)
@@ -22,10 +26,13 @@ class Checkbox(Canvas):
 		)
 		
 		self.checked = False
+		self.disabled = False
 		self.command = command
 		
 		self.bind("<Configure>", self.draw_border)
 		self.bind("<Button-1>", self.toggle)
+		self.bind("<Enter>", self.on_enter)
+		self.bind("<Leave>", self.on_leave)
 		
 	def config(self, **kwargs):
 		self.options.update(kwargs)
@@ -60,13 +67,16 @@ class Checkbox(Canvas):
 		
 		if self.checked:
 			getattr(self, "draw_" + self.options["checkmark_type"])()
+			
+			self.tag_raise("border")
 		
 	def draw_xmark(self):
 		self.create_line(
 			0, 0,
-			self.winfo_width(), self.winfo_height(),
+			self.winfo_width(),self.winfo_height(),
 			tags="checkmark",
 			width=self.options["checkmark_width"],
+			fill=self.options["checkmark_color"],
 		)
 		
 		self.create_line(
@@ -74,6 +84,7 @@ class Checkbox(Canvas):
 			self.winfo_width(), 0,
 			tags="checkmark",
 			width=self.options["checkmark_width"],
+			fill=self.options["checkmark_color"],
 		)
 		
 	def draw_checkmark(self):
@@ -88,7 +99,7 @@ class Checkbox(Canvas):
 			x1, y1,
 			x2, y2,
 			width = self.options["checkmark_width"],
-			fill="black",
+			fill=self.options["checkmark_color"],
 			tags="checkmark",
 		)
 		
@@ -96,14 +107,44 @@ class Checkbox(Canvas):
 			x2, y2,
 			x3, y3,
 			width = self.options["checkmark_width"],
-			fill="black",
+			fill=self.options["checkmark_color"],
 			tags="checkmark",
 		)
 		
 	def toggle(self, event=None):
+		if self.disabled:
+			return
+			
 		self.checked = not self.checked
-		
 		self.draw_border()
 		
 		if self.command:
 			self.command(self.checked)
+			
+	def get(self):
+		return self.checked
+		
+	def set(self, value):
+		self.checked = bool(value)
+		self.draw_border()
+		
+	def on_enter(self, event=None):
+		if not self.disabled:
+			self.configure(bg=self.options["hover_bg"])
+		
+	def on_leave(self, event=None):
+		if not self.disabled:
+			self.configure(bg=self.options["bg"])
+		
+	def disable(self):
+		self.disabled = True
+		self.configure(bg=self.options["disabled_color"])
+		self.options["original_border_color"] = self.options["border_color"]
+		self.options["border_color"] = self.options["disabled_border_color"]
+		self.draw_border()
+		
+	def enable(self):
+		self.disabled = False
+		self.configure(bg=self.options["bg"])
+		self.options["border_color"] = self.options["original_border_color"]
+		self.draw_border()
