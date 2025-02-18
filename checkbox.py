@@ -1,7 +1,7 @@
-from tkinter import Canvas
+from tkinter import Canvas, BooleanVar
 
 class Checkbox(Canvas):
-	def __init__(self, parent, command=None, **kwargs):
+	def __init__(self, parent, variable=None, command=None, **kwargs):
 		#Default Options
 		self.options = {
 			"bg": "white",
@@ -25,8 +25,8 @@ class Checkbox(Canvas):
 			height=self.options["size"],
 		)
 		
-		self.checked = False
 		self.disabled = False
+		self.variable = variable if variable is not None else BooleanVar(value=False)
 		self.command = command
 		
 		self.bind("<Configure>", self.draw_border)
@@ -65,7 +65,7 @@ class Checkbox(Canvas):
 			tags="border",
 		)
 		
-		if self.checked:
+		if self.variable.get():
 			getattr(self, "draw_" + self.options["checkmark_type"])()
 			
 			self.tag_raise("border")
@@ -115,17 +115,18 @@ class Checkbox(Canvas):
 		if self.disabled:
 			return
 			
-		self.checked = not self.checked
+		new_state = not self.variable.get()
+		self.variable.set(new_state)
 		self.draw_border()
 		
 		if self.command:
-			self.command(self.checked)
+			self.command(new_state)
 			
 	def get(self):
-		return self.checked
+		return self.variable.get()
 		
 	def set(self, value):
-		self.checked = bool(value)
+		self.variable.set(bool(value))
 		self.draw_border()
 		
 	def on_enter(self, event=None):
