@@ -1,7 +1,7 @@
-from tkinter import Canvas, BooleanVar
+from tkinter import Canvas, BooleanVar, StringVar
 
 class Checkbox(Canvas):
-	def __init__(self, parent, variable=None, command=None, **kwargs):
+	def __init__(self, parent, variable=None, value=None, command=None, **kwargs):
 		#Default Options
 		self.options = {
 			"bg": "white",
@@ -26,8 +26,20 @@ class Checkbox(Canvas):
 		)
 		
 		self.disabled = False
-		self.variable = variable if variable is not None else BooleanVar(value=False)
 		self.command = command
+		self.value = value
+		
+		if variable is None:
+			self.variable = BooleanVar(value=False)
+			
+		else:
+			self.variable = variable
+			
+		if isinstance(self.variable, StringVar) and self.value is None:
+			raise ValueError("When using StringVar, 'value' must be set for each checkbox.")
+			
+		if isinstance(self.variable, StringVar):
+			self.variable.trace_add("write", lambda *args: self.draw_border())
 		
 		self.bind("<Configure>", self.draw_border)
 		self.bind("<Button-1>", self.toggle)
@@ -65,10 +77,13 @@ class Checkbox(Canvas):
 			tags="border",
 		)
 		
-		if self.variable.get():
+		if isinstance(self.variable, BooleanVar) and self.variable.get():
 			getattr(self, "draw_" + self.options["checkmark_type"])()
 			
-			self.tag_raise("border")
+		elif isinstance(self.variable, StringVar) and self.variable.get() == self.value:
+			getattr(self, "draw_" + self.options["checkmark_type"])()
+		
+		self.tag_raise("border")
 		
 	def draw_xmark(self):
 		self.create_line(
@@ -115,18 +130,35 @@ class Checkbox(Canvas):
 		if self.disabled:
 			return
 			
-		new_state = not self.variable.get()
-		self.variable.set(new_state)
+		if isinstance(self.variable, BooleanVar):
+			new_state = not self.variable.get()
+			
+			self.variable.set(new_state)
+			
+		elif isinstance(self.variable, StringVar):
+			self.variable.set(self.value)
+		
+		
 		self.draw_border()
 		
 		if self.command:
-			self.command(new_state)
+			self.command(self.get())
 			
 	def get(self):
-		return self.variable.get()
+		if isinstance(self.variable, BooleanVar):
+			return self.variable.get()
+			
+		elif isinstance(self.variable, StringVar):
+			return self.variable.get() == self.value
 		
 	def set(self, value):
-		self.variable.set(bool(value))
+		if isinstance(self.variable, BooleanVar):
+			self.variable.set(bool(value))
+			
+		elif isinstance(self.variable, StringVar):
+			if value == self.value:
+				self.variable.set(value)
+		
 		self.draw_border()
 		
 	def on_enter(self, event=None):
