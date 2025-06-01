@@ -1,6 +1,6 @@
 from tkinter import Canvas, BooleanVar
 
-class Checkbox(Canvas):
+class TkCheckbox(Canvas):
 	def __init__(self, parent, variable=None, command=None, **kwargs):
 		#Default Options
 		self.options = {

@@ -1,6 +1,6 @@
 from tkinter import Canvas
 
-class Scrollbar(Canvas):
+class TkScrollbar(Canvas):
 	def __init__(self, parent, orient="vertical", command=None, **kwargs):
 		#Default options
 		self.options = {
