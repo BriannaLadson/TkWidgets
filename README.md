@@ -4,8 +4,19 @@ A growing collection of custom widgets built with Python's Tkinter canvas — cl
 
 ## ✨ Widgets
 
-- Checkbox ✅
-- Scrollbar ✅
+- Checkbox
+- Scrollbar
+
+## 📦 How to Use
+
+If you downloaded this repo as a `.zip`, GitHub will name the folder `TkWidgets-main`.
+
+> 🔁 **Rename the folder to `tkwidgets`**  
+> and place it next to your Python script so you can import the widgets like this:
+
+```python
+from tkwidgets import TkCheckbox, TkScrollbar
+```
 
 ## 🔓 Unlock More Widgets
 
