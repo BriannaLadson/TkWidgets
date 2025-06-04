@@ -8,15 +8,17 @@ A growing collection of custom widgets built with Python's Tkinter canvas — cl
 - Scrollbar
 - Skill Web
 
-## 📦 How to Use
+## 📦 Installation
 
-If you downloaded this repo as a `.zip`, GitHub will name the folder `TkWidgets-main`.
+You can install TkWidgets using pip:
 
-> 🔁 **Rename the folder to `tkwidgets`**  
-> and place it next to your Python script so you can import the widgets like this:
+```bash
+pip install tkwidgets
+```
 
-```python
-from tkwidgets import TkCheckbox, TkScrollbar
+Then import the widgets in your project like this:
+```bash
+from tkwidgets import TkCheckbox, TkScrollbar, TkSkillWeb
 ```
 
 ## 🔓 Unlock More Widgets
