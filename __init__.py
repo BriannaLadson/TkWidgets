@@ -2,7 +2,7 @@
 
 from .checkbox import TkCheckbox
 from .scrollbar import TkScrollbar
-from .skillweb import TkSkillweb
+from .skillweb import TkSkillWeb
 
 __all__ = [
 	"TkCheckbox", 
