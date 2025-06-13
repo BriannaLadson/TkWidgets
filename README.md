@@ -6,6 +6,7 @@ A growing collection of custom widgets built with Python's Tkinter canvas — cl
 
 - Checkbox
 - Date Dropdown
+- Progress Bar
 - Scrollbar
 - Skill Web
 
