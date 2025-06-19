@@ -5,6 +5,7 @@ from .scrollbar import TkScrollbar
 from .skillweb import TkSkillWeb
 from .date_dropdown import TkDateDropdown
 from .progressbar import TkProgressBar
+from .joystick import TkJoystick
 
 __all__ = [
 	"TkCheckbox", 
@@ -12,4 +13,5 @@ __all__ = [
 	"TkSkillWeb",
 	"TkDateDropdown",
 	"TkProgressBar",
+	"TkJoystick",
 ]
