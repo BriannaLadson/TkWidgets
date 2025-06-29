@@ -10,6 +10,7 @@ class TkScrollbar(Canvas):
 			"thickness": 12,
 			"gradient_thumb": ((0,0,0), (255,255,255)),
 			"animation": None,
+			"pulse_intensity": 1.0,
 		}
 		self.options.update(kwargs)
 		
@@ -113,7 +114,7 @@ class TkScrollbar(Canvas):
 		
 		for i in range(steps):
 			ratio = ((i + offset) % steps) / (steps - 1)
-			r, b, g = self.interpolate_colors(ratio)
+			r, g, b = self.interpolate_colors(ratio)
 			color = f'#{r:02x}{g:02x}{b:02x}'
 			
 			if self.orient == "vertical":
@@ -127,9 +128,12 @@ class TkScrollbar(Canvas):
 	def draw_gradient_pulse(self, pos):
 		base = self.options["gradient_thumb"][0]
 		pulse = self.pulse_strength
-		r = int(min(255, base[0] + pulse * 50))
-		g = int(min(255, base[1] + pulse * 50))
-		b = int(min(255, base[2] + pulse * 50))
+		intensity = self.options.get("pulse_intensity", 1.0)
+		
+		r = int(base[0] + (255 - base[0]) * pulse * intensity)
+		g = int(base[1] + (255 - base[1]) * pulse * intensity)
+		b = int(base[2] + (255 - base[2]) * pulse * intensity)
+		
 		color = f"#{r:02x}{g:02x}{b:02x}"
 		self.draw_thumb(pos, color)
 		
