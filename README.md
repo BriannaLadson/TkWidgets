@@ -24,11 +24,3 @@ Then import the widgets in your project like this:
 from tkwidgets import TkCheckbox, TkScrollbar, TkSkillWeb
 ```
 
-## 🔓 Unlock More Widgets
-
-Want more advanced widgets and features?
-
-Grab [TkWidgets-Pro on Gumroad](https://codequest3.gumroad.com/) — includes widgets with extended functionality, and lifetime updates.
-
-Your support helps me keep building and releasing new custom widgets for the Tkinter community.
-
