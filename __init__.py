@@ -6,6 +6,7 @@ from .skillweb import TkSkillWeb
 from .date_dropdown import TkDateDropdown
 from .progressbar import TkProgressBar
 from .joystick import TkJoystick
+from .tile_map import TkTileMap
 
 __all__ = [
 	"TkCheckbox", 
@@ -14,4 +15,5 @@ __all__ = [
 	"TkDateDropdown",
 	"TkProgressBar",
 	"TkJoystick",
+	"TkTileMap",
 ]
