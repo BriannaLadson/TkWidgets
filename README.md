@@ -10,6 +10,7 @@ A growing collection of custom widgets built with Python's Tkinter canvas — cl
 - Progress Bar
 - Scrollbar
 - Skill Web
+- Tile Map
 
 ## 📦 Installation
 
